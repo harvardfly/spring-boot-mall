@@ -8,15 +8,19 @@ import com.zpf.mall.exception.ImoocMallExceptionEnum;
 import com.zpf.mall.model.pojo.User;
 import com.zpf.mall.model.request.RegisterUserReq;
 import com.zpf.mall.model.vo.UserVO;
+import com.zpf.mall.service.EmailService;
 import com.zpf.mall.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+import com.zpf.mall.util.EmailUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.concurrent.ExecutorService;
 
 /**
  * 描述：     用户控制器
@@ -26,6 +30,12 @@ public class UserController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    ExecutorService executorService;
 
     @JwtAuth  // 这里是自定义的注解，表示需要JWT鉴权
     @GetMapping("/test")
@@ -132,4 +142,38 @@ public class UserController {
             return ApiRestResponse.error(ImoocMallExceptionEnum.NEED_ADMIN);
         }
     }
+
+    /**
+     * 发送邮件 使用线程池异步 避免发邮件阻塞
+     */
+    @PostMapping("/user/sendEmail")
+    @ResponseBody
+    public ApiRestResponse sendEmail(@RequestParam("emailAddress") String emailAddress)
+            throws ImoocMallException {
+        //检查邮件地址是否有效，检查是否已注册
+        boolean validEmailAddress = EmailUtil.isValidEmailAddress(emailAddress);
+        if (validEmailAddress) {
+            boolean emailPassed = userService.checkEmailRegistered(emailAddress);
+            if (!emailPassed) {
+                return ApiRestResponse.error(ImoocMallExceptionEnum.EMAIL_ALREADY_BEEN_REGISTERED);
+            } else {
+                String verificationCode = EmailUtil.genVerificationCode();
+                Boolean saveEmailToRedis = emailService.saveEmailToRedis(emailAddress, verificationCode);
+                if (saveEmailToRedis) {
+                    executorService.submit(new Runnable() {
+                        @Override
+                        public void run() {
+                            emailService.sendSimpleMessage(emailAddress, Constant.EMAIL_SUBJECT, "欢迎注册，您的验证码是" + verificationCode);
+                        }
+                    });
+                    return ApiRestResponse.success();
+                } else {
+                    return ApiRestResponse.error(ImoocMallExceptionEnum.EMAIL_ALREADY_BEEN_SEND);
+                }
+            }
+        } else {
+            return ApiRestResponse.error(ImoocMallExceptionEnum.WRONG_EMAIL);
+        }
+    }
 }
+

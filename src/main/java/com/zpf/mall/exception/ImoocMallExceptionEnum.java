@@ -26,7 +26,12 @@ public enum ImoocMallExceptionEnum {
     NO_ORDER(10020, "订单不存在"),
     NOT_YOUR_ORDER(10021, "订单不属于你"),
     WRONG_ORDER_STATUS(10022, "订单状态不符"),
-    SYSTEM_ERROR(20000, "系统异常，请从控制台或日志中查看具体错误信息");
+    SYSTEM_ERROR(20000, "系统异常，请从控制台或日志中查看具体错误信息"),
+    WRONG_EMAIL(10023, "非法的邮件地址"),
+    EMAIL_ALREADY_BEEN_REGISTERED(10024, "email地址已被注册"),
+    EMAIL_ALREADY_BEEN_SEND(10025, "email已发送，若无法收到，请稍后再试"),
+    NEED_EMAIL_ADDRESS(10026, "email不能为空");
+
     /**
      * 异常码
      */

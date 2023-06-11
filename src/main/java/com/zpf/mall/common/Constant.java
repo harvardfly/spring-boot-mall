@@ -16,6 +16,12 @@ public class Constant {
     public static final String IMOOC_MALL_USER = "imooc_mall_user";
     public static final String SALT = "8svbsvjkweDF,.03[";
 
+    public static final String EMAIL_SUBJECT = "您的验证码";
+    public static final String EMAIL_FROM = "1234554321@qq.com";
+    public static final String WATER_MARK_JPG = "watermark.jpg";
+    public static final Integer IMAGE_SIZE = 400;
+    public static final Float IMAGE_OPACITY = 0.5f;
+
     public static String FILE_UPLOAD_DIR;
 
     @Value("${file.upload.dir}")

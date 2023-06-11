@@ -22,4 +22,6 @@ public interface UserMapper {
 
     // 如果Mapper接口中的方法的参数不止一个，需要使用@Param注解
     User selectLogin(@Param("userName") String userName, @Param("password")String password);
+
+    User selectOneByEmailAddress(String emailAddress);
 }

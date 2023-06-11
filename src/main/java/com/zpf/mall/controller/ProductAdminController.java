@@ -9,6 +9,7 @@ import com.zpf.mall.model.pojo.Product;
 import com.zpf.mall.model.request.AddProductReq;
 import com.zpf.mall.model.request.UpdateProductReq;
 import com.zpf.mall.service.ProductService;
+import com.zpf.mall.service.UploadService;
 import io.swagger.annotations.ApiOperation;
 import java.io.File;
 import java.io.IOException;
@@ -34,6 +35,8 @@ public class ProductAdminController {
 
     @Autowired
     ProductService productService;
+
+    UploadService uploadService;
 
     @PostMapping("/admin/product/add")
     public ApiRestResponse addProduct(@Valid @RequestBody AddProductReq addProductReq) {
@@ -113,4 +116,17 @@ public class ProductAdminController {
         PageInfo pageInfo = productService.listForAdmin(pageNum, pageSize);
         return ApiRestResponse.success(pageInfo);
     }
+
+    @ApiOperation("后台批量上传商品接口")
+    @PostMapping("/admin/upload/product")
+    public ApiRestResponse uploadProduct(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        String newFileName = uploadService.getNewFileName(multipartFile);
+        //创建文件
+        File fileDirectory = new File(Constant.FILE_UPLOAD_DIR);
+        File destFile = new File(Constant.FILE_UPLOAD_DIR + newFileName);
+        uploadService.createFile(multipartFile, fileDirectory, destFile);
+        productService.addProductByExcel(destFile);
+        return ApiRestResponse.success();
+    }
+
 }

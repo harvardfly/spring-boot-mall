@@ -63,7 +63,12 @@
       "message": "Token 不合法"
     }
     ```
-14. 生产部署：  
+14. 定义JobConfiguration来实现定时任务，同时配合redisson分布式锁实现分布式定时任务；
+15. EmailUtil、ExcelUtil、ImageUtil分别实现发邮件、Excel、图片的解析；
+16. 定义ThreadPoolConfig实现线程池配置，通过线程池异步实现发邮件功能；
+17. 定义UploadService实现文件的上传与下载；
+18. 在OrderCodeFactory类中使用ThreadLocal实现线程安全的simpleDateFormatThreadLocal对象（变量），实现生成订单号功能；
+19. 生产部署：  
     a. maven Lifecycle clean清除内容；  
     b. maven Lifecycle package（其实 mvn install也可以打成jar，woa离线推送就是这样做的） 打成jar包（生成在target目录）；  
     c. （woa的操作）将生成的jar包COPY到 /app目录，ENTRYPOINT tini守护进程，启动：CMD ["su-exec","woa:woa","java", "-XX:MaxRAMPercentage=80.0","-jar", "/app/app.jar"]；

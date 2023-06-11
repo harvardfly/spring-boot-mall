@@ -5,6 +5,10 @@ import com.zpf.mall.model.pojo.Product;
 import com.zpf.mall.model.request.AddProductReq;
 import com.zpf.mall.model.request.ProductListReq;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+
 /**
  * 描述：     商品Service
  */
@@ -23,4 +27,6 @@ public interface ProductService {
     Product detail(Integer id);
 
     PageInfo list(ProductListReq productListReq);
+
+    void addProductByExcel(File destFile) throws IOException;
 }
