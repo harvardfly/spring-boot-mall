@@ -1,4 +1,4 @@
-# 基于Spring boot + Mybatis + mybatis generator的项目
+# 基于Spring boot + Mybatis + mybatis generator CRUD demo示例
 
 ## 技术栈介绍
 1. 通过mybatis generator 并配置 generatorConfig.xml 自动生成dao Mapper接口、pojo实体类对象、resource/mappers sql语句与dao的映射xml文件；
@@ -71,5 +71,5 @@
 19. 在单元测试上可以通过mock对远程调用接口测试，在类上加注解@RunWith(MockitoJUnitRunner.class)；通过 System.currentTimeMillis() 测试方法耗时；
 20. 生产部署：  
     a. maven Lifecycle clean清除内容；  
-    b. maven Lifecycle package（其实 mvn install也可以打成jar） 打成jar包（生成在target目录）；  
-    c. 将生成的jar包COPY到 /app目录，ENTRYPOINT tini守护进程，启动：CMD ["su-exec","woa:woa","java", "-XX:MaxRAMPercentage=80.0","-jar", "/app/app.jar"]；
+    b. maven Lifecycle package（其实 mvn install也可以打成jar） 打成jar包（生成在target目录）；
+    c. 将生成的jar包COPY到 /app目录，ENTRYPOINT tini守护进程，启动：CMD ["su-exec","wxa:wxa","java", "-XX:MaxRAMPercentage=80.0","-jar", "/app/app.jar"]；
