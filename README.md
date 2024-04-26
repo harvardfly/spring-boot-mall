@@ -68,7 +68,8 @@
 16. 定义ThreadPoolConfig实现线程池配置，通过线程池异步实现发邮件功能；
 17. 定义UploadService实现文件的上传与下载；
 18. 在OrderCodeFactory类中使用ThreadLocal实现线程安全的simpleDateFormatThreadLocal对象（变量），实现生成订单号功能；
-19. 生产部署：  
+19. 在单元测试上可以通过mock对远程调用接口测试，在类上加注解@RunWith(MockitoJUnitRunner.class)；通过 System.currentTimeMillis() 测试方法耗时；
+20. 生产部署：  
     a. maven Lifecycle clean清除内容；  
-    b. maven Lifecycle package（其实 mvn install也可以打成jar，woa离线推送就是这样做的） 打成jar包（生成在target目录）；  
-    c. （woa的操作）将生成的jar包COPY到 /app目录，ENTRYPOINT tini守护进程，启动：CMD ["su-exec","woa:woa","java", "-XX:MaxRAMPercentage=80.0","-jar", "/app/app.jar"]；
+    b. maven Lifecycle package（其实 mvn install也可以打成jar） 打成jar包（生成在target目录）；  
+    c. 将生成的jar包COPY到 /app目录，ENTRYPOINT tini守护进程，启动：CMD ["su-exec","woa:woa","java", "-XX:MaxRAMPercentage=80.0","-jar", "/app/app.jar"]；
