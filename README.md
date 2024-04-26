@@ -1,4 +1,4 @@
-# 基于Spring boot + Mybatis + mybatis generator的项目
+# 基于Spring boot + Mybatis + mybatis generator CRUD demo示例
 
 ## 技术栈介绍
 1. 通过mybatis generator 并配置 generatorConfig.xml 自动生成dao Mapper接口、pojo实体类对象、resource/mappers sql语句与dao的映射xml文件；
