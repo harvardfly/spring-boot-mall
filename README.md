@@ -65,5 +65,5 @@
     ```
 14. 生产部署：  
     a. maven Lifecycle clean清除内容；  
-    b. maven Lifecycle package（其实 mvn install也可以打成jar，woa离线推送就是这样做的） 打成jar包（生成在target目录）；  
-    c. （woa的操作）将生成的jar包COPY到 /app目录，ENTRYPOINT tini守护进程，启动：CMD ["su-exec","woa:woa","java", "-XX:MaxRAMPercentage=80.0","-jar", "/app/app.jar"]；
+    b. maven Lifecycle package（其实 mvn install也可以打成jar） 打成jar包（生成在target目录）；  
+    c. 将生成的jar包COPY到 /app目录，ENTRYPOINT tini守护进程，启动：CMD ["su-exec","wxa:wxa","java", "-XX:MaxRAMPercentage=80.0","-jar", "/app/app.jar"]；
